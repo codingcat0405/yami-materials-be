@@ -8,18 +8,21 @@ const materialPlugin = new Elysia()
   .group("/materials", (group) =>
     group
       .use(materialService)
-      .get('/', async ({materialService}) => {
-        return [];
+      .get('/', async ({materialService, query}) => {
+        return await materialService.getMaterials(query)
       }, {
         detail: {
           tags: ['materials'],
         },
+        query: t.Object({
+          page: t.Optional(t.String()),
+          limit: t.Optional(t.String()),
+          search: t.Optional(t.String()),
+        })
       })
       .get('/:id', async ({materialService, params}) => {
         const {id} = params;
-        return {
-          id,
-        };
+        return await materialService.getMaterialById(+id)
       }, {
         detail: {
           tags: ['materials'],
@@ -30,7 +33,7 @@ const materialPlugin = new Elysia()
       })
       .derive(isAuthenticated())
       .post('/', async ({materialService, body}) => {
-        return body
+        return await materialService.createMaterial(body)
       }, {
         detail: {
           tags: ['materials'],
@@ -40,8 +43,9 @@ const materialPlugin = new Elysia()
         },
         body: Material.toDTO()
       })
-      .post('/:id', async ({materialService, body}) => {
-        return body
+      .post('/:id', async ({materialService, body, params}) => {
+        const {id} = params;
+        return await materialService.updateMaterial(+id, body)
       }, {
         detail: {
           tags: ['materials'],
@@ -52,7 +56,7 @@ const materialPlugin = new Elysia()
         body: Material.toDTO(false)
       })
       .delete('/:id', async ({materialService, params}) => {
-        return params
+        return await materialService.deleteMaterial(+params.id)
       }, {
         detail: {
           tags: ['materials'],
