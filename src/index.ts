@@ -7,6 +7,7 @@ import errorMiddleware from "./middlewares/errorMiddleware";
 import {jwt} from '@elysiajs/jwt'
 import {authPlugin} from "./plugins";
 import materialPlugin from "./plugins/material";
+import uploadPlugin from "./plugins/upload";
 
 AppDataSource.initialize().then(() => {
   console.log('Database connected to url ' + process.env.DATABASE_URL);
@@ -54,6 +55,7 @@ const app = new Elysia()
       group
         .use(authPlugin)
         .use(materialPlugin)
+        .use(uploadPlugin)
     //add more plugins here
   )
   .listen(process.env.PORT || 3000);
