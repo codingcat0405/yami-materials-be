@@ -65,6 +65,21 @@ const materialPlugin = new Elysia()
           ],
         },
       })
+      .post('/bulk-cud', async ({materialService, body}) => {
+        return await materialService.bulkCUD(body)
+      }, {
+        detail: {
+          tags: ['materials'],
+          security: [
+            {JwtAuth: []}
+          ],
+        },
+        body: t.Object({
+          listCreate: t.Array(Material.toDTO()),
+          listUpdate: t.Array(Material.toDTO(false)),
+          listDelete: t.Array(t.Number())
+        })
+      })
   )
 
 export default materialPlugin

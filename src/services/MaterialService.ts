@@ -65,6 +65,38 @@ class MaterialService {
     //soft delete
     return await this.materialRepository.softRemove(material);
   }
+
+  async bulkCUD(body: any) {
+    const {listCreate = [], listUpdate = [], listDelete = []} = body;
+    if (listCreate.length > 0) {
+      await this.materialRepository.save(listCreate);
+    }
+    if (listUpdate.length > 0) {
+
+      await Promise.all(listUpdate.map(async (item: any) => {
+        const material = await this.materialRepository.findOneOrFail({
+          where: {
+            id: item.id
+          }
+        })
+        this.materialRepository.merge(material, item);
+        return await this.materialRepository.save(material);
+      }))
+    }
+    if (listDelete.length > 0) {
+      await Promise.all(listDelete.map(async (id: number) => {
+        const material = await this.materialRepository.findOneOrFail({
+          where: {
+            id
+          }
+        })
+        return await this.materialRepository.softRemove(material);
+      }))
+    }
+    return {
+      message: 'success'
+    }
+  }
 }
 
 export default new Elysia()
