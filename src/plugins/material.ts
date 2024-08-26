@@ -31,6 +31,17 @@ const materialPlugin = new Elysia()
           id: t.String()
         })
       })
+      .get('/stamp-code/:code', async ({materialService, params}) => {
+        const {code} = params;
+        return await materialService.findByStampCode(code);
+      }, {
+        detail: {
+          tags: ['materials'],
+        },
+        params: t.Object({
+          code: t.String()
+        })
+      })
       .derive(isAuthenticated())
       .post('/', async ({materialService, body}) => {
         return await materialService.createMaterial(body)

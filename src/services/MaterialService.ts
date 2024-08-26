@@ -97,6 +97,14 @@ class MaterialService {
       message: 'success'
     }
   }
+
+  async findByStampCode(stampCode: string) {
+    return await this.materialRepository.findOneOrFail({
+      where: {
+        stampCode
+      }
+    });
+  }
 }
 
 export default new Elysia()
