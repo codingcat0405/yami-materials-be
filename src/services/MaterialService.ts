@@ -1,4 +1,4 @@
-import {Repository} from "typeorm";
+import {Like, Repository} from "typeorm";
 import {Material} from "../entities";
 import {AppDataSource} from "../data-source";
 import {Elysia} from "elysia";
@@ -18,11 +18,12 @@ class MaterialService {
       take: +limit,
     };
     if (search) {
-      options['where'] = {
-        name: search,
-        code: search,
-        stampCode: search,
-      }
+      options['where'] = [
+        {name: Like(`%${search}%`)},
+        {code: Like(`%${search}%`)},
+        {stampCode: Like(`%${search}%`)},
+        {device: Like(`%${search}%`)},
+      ]
     }
     const res = await this.materialRepository.findAndCount(options);
     return {
