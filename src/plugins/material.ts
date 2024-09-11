@@ -1,5 +1,5 @@
 import {Elysia, t} from 'elysia'
-import {materialService, userService} from "../services";
+import {excelService, materialService, userService} from "../services";
 import isAuthenticated from "../middlewares/isAuthenticated";
 import {Material} from "../entities";
 
@@ -89,6 +89,31 @@ const materialPlugin = new Elysia()
           listCreate: t.Array(Material.toDTO()),
           listUpdate: t.Array(Material.toDTO(false)),
           listDelete: t.Array(t.Number())
+        })
+      })
+      .use(excelService)
+      .post('/sync-excel', async ({excelService, body}) => {
+        return await excelService.syncExcelData(body)
+      }, {
+        detail: {
+          tags: ['materials'],
+          security: [
+            {JwtAuth: []}
+          ],
+        },
+        body: t.Object({
+          fileName: t.String(),
+          config: t.Object({
+            dataStartRow: t.Number(),
+            stampCodeCol: t.String(),
+            codeCol: t.String(),
+            nameCol: t.String(),
+            entryDateCol: t.String(),
+            statusCol: t.String(),
+            creatorCodeCol: t.String(),
+            deviceCol: t.String(),
+            unitCol: t.String(),
+          })
         })
       })
   )
