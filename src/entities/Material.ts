@@ -12,26 +12,38 @@ class Material {
   @Column()
   code!: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   name!: string
-
-  @Column()
+  @Column({
+    nullable: true
+  })
   entryDate!: Date
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   status!: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   creatorCode!: string //danh điểm (số chế tạo)
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   device!: string  //thiết bị
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   unit!: string //đơn vị tính
 
   @Column({
-    type: 'text'
+    type: 'text',
+    nullable: true
   })
   images!: string
 

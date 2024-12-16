@@ -107,12 +107,12 @@ const materialPlugin = new Elysia()
             dataStartRow: t.Number(),
             stampCodeCol: t.String(),
             codeCol: t.String(),
-            nameCol: t.String(),
-            entryDateCol: t.String(),
-            statusCol: t.String(),
-            creatorCodeCol: t.String(),
-            deviceCol: t.String(),
-            unitCol: t.String(),
+            nameCol: t.Optional(t.String()),
+            entryDateCol: t.Optional(t.String()),
+            statusCol: t.Optional(t.String()),
+            creatorCodeCol: t.Optional(t.String()),
+            deviceCol: t.Optional(t.String()),
+            unitCol: t.Optional(t.String()),
           })
         })
       })
