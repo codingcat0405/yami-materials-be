@@ -9,14 +9,29 @@ type syncExcelDTO = {
   fileName: string;
   config: {
     dataStartRow: number;
-    stampCodeCol: string;
-    codeCol: string;
-    nameCol: string;
-    entryDateCol: string;
-    statusCol: string;
-    creatorCodeCol: string;
-    deviceCol: string;
-    unitCol: string;
+    stampCodeCol?: string;
+    stampCodeDefault?: string;
+
+    codeCol?: string;
+    codeDefault?: string;
+
+    nameCol?: string;
+    nameDefault?: string;
+
+    entryDateCol?: string;
+    entryDateDefault?: string;
+
+    statusCol?: string;
+    statusDefault?: string;
+
+    creatorCodeCol?: string;
+    creatorCodeDefault?: string;
+
+    deviceCol?: string;
+    deviceDefault?: string;
+
+    unitCol?: string;
+    unitDefault?: string;
   }
 }
 
@@ -56,18 +71,55 @@ class ExcelService {
         }
         rowCounter++;
         const material = new Material();
-        material.stampCode = row.getCell(data.config.stampCodeCol)?.value?.toString() ?? '';
-        material.code = row.getCell(data.config.codeCol).value?.toString() ?? '';
-        material.name = row.getCell(data.config.nameCol).value?.toString() ?? '';
-        material.entryDate = new Date(row.getCell(data.config.entryDateCol).value?.toString() ?? '');
+        if (data.config.stampCodeCol) {
+          material.stampCode = row.getCell(data.config.stampCodeCol).value?.toString() ?? '';
+        } else {
+          material.stampCode = data.config.stampCodeDefault ?? '';
+        }
+        if (data.config.codeCol) {
+          material.code = row.getCell(data.config.codeCol).value?.toString() ?? '';
+        } else {
+          material.code = data.config.codeDefault ?? '';
+        }
+        if (data.config.nameCol) {
+          material.name = row.getCell(data.config.nameCol).value?.toString() ?? '';
+        } else {
+          material.name = data.config.nameDefault ?? '';
+        }
+        if (data.config.entryDateCol) {
+          material.entryDate = new Date(row.getCell(data.config.entryDateCol).value?.toString() ?? '');
+        } else {
+          material.entryDate = new Date(data.config.entryDateDefault ?? '');
+        }
         //check if is invalid date
         if (isNaN(material.entryDate.getTime())) {
           material.entryDate = new Date();
         }
-        material.status = row.getCell(data.config.statusCol).value?.toString() ?? '';
-        material.creatorCode = row.getCell(data.config.creatorCodeCol).value?.toString() ?? '';
-        material.device = row.getCell(data.config.deviceCol).value?.toString() ?? '';
-        material.unit = row.getCell(data.config.unitCol).value?.toString() ?? '';
+        if (data.config.statusCol) {
+          material.status = row.getCell(data.config.statusCol).value?.toString() ?? '';
+        } else {
+          material.status = data.config.statusDefault ?? '';
+        }
+        if (data.config.creatorCodeCol) {
+          material.creatorCode = row.getCell(data.config.creatorCodeCol).value?.toString() ?? '';
+        } else {
+          material.creatorCode = data.config.creatorCodeDefault ?? '';
+        }
+        if (data.config.deviceCol) {
+          material.device = row.getCell(data.config.deviceCol).value?.toString() ?? '';
+        } else {
+          material.device = data.config.deviceDefault ?? '';
+        }
+        if (data.config.unitCol) {
+          material.unit = row.getCell(data.config.unitCol).value?.toString() ?? '';
+        } else {
+          material.unit = data.config.unitDefault ?? '';
+        }
+        if (data.config.unitCol) {
+          material.unit = row.getCell(data.config.unitCol).value?.toString() ?? '';
+        } else {
+          material.unit = data.config.unitDefault ?? '';
+        }
         listMaterials.push(material);
       }
     }

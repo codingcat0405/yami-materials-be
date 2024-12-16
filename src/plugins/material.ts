@@ -105,14 +105,29 @@ const materialPlugin = new Elysia()
           fileName: t.String(),
           config: t.Object({
             dataStartRow: t.Number(),
-            stampCodeCol: t.String(),
-            codeCol: t.String(),
+            stampCodeCol: t.Optional(t.String()),
+            stampCodeDefault: t.Optional(t.String()),
+
+            codeCol: t.Optional(t.String()),
+            codeDefault: t.Optional(t.String()),
+
             nameCol: t.Optional(t.String()),
+            nameDefault: t.Optional(t.String()),
+
             entryDateCol: t.Optional(t.String()),
+            entryDateDefault: t.Optional(t.String()),
+
             statusCol: t.Optional(t.String()),
+            statusDefault: t.Optional(t.String()),
+
             creatorCodeCol: t.Optional(t.String()),
+            creatorCodeDefault: t.Optional(t.String()),
+
             deviceCol: t.Optional(t.String()),
+            deviceDefault: t.Optional(t.String()),
+
             unitCol: t.Optional(t.String()),
+            unitDefault: t.Optional(t.String()),
           })
         })
       })
